@@ -12,6 +12,7 @@ resource "aws_instance" "my_first_server" {
   instance_type = var.instance_type
   key_name = aws_key_pair.terraform_key.key_name
   vpc_security_group_ids = [aws_security_group.my_security_group.id]
+  subnet_id = aws_subnet.public_subnet.id
 
   tags = {
     Name = "terraform-server-updated"
@@ -28,7 +29,8 @@ EOF
 }
 
 resource "aws_security_group" "my_security_group" {
-  name = "terraform-security-group"
+  name   = "terraform-security-group"
+  vpc_id = aws_vpc.main_vpc.id
 
   ingress {
     from_port   = 22
